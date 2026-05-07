@@ -1,9 +1,19 @@
-import { Button, Table } from "@heroui/react";
+'use client'
+import { AlertDialog, Button, Table } from "@heroui/react";
 import { TrashBin } from "@gravity-ui/icons";
 import React from "react";
 import Link from "next/link";
 
-const UsersTable = ({ users }) => {
+
+const UsersTable = ({ users,deleteUserAction }) => {
+
+   const handleDelete = async(userId) =>{
+    await deleteUserAction(userId);
+    
+   }
+    
+
+
   return (
     <div>
       <Table className="w-11/12 mx-auto">
@@ -26,10 +36,39 @@ const UsersTable = ({ users }) => {
                       <Button variant="outline">Details</Button>
                     </Link>
                     <Button variant="secondary">Edit</Button>
-                    <Button variant="danger">
-                      <TrashBin />
-                      Delete
-                    </Button>
+
+                    <AlertDialog>
+                      <Button variant="danger">   <TrashBin /> Delete </Button>
+                      <AlertDialog.Backdrop>
+                        <AlertDialog.Container>
+                          <AlertDialog.Dialog className="sm:max-w-100">
+                            <AlertDialog.CloseTrigger />
+                            <AlertDialog.Header>
+                              <AlertDialog.Icon status="danger" />
+                              <AlertDialog.Heading>
+                                Delete User permanently?
+                              </AlertDialog.Heading>
+                            </AlertDialog.Header>
+                            <AlertDialog.Body>
+                              <p>
+                                This will permanently delete{" "}
+                                <strong>My Awesome Project</strong> and all of
+                                its data. This action cannot be undone.
+                              </p>
+                            </AlertDialog.Body>
+                            <AlertDialog.Footer>
+                              <Button slot="close" variant="tertiary">
+                                Cancel
+                              </Button>
+                              <Button onClick={()=> handleDelete(user._id)}
+                              slot="close" variant="danger">
+                                <TrashBin />  Delete permanently
+                              </Button>
+                            </AlertDialog.Footer>
+                          </AlertDialog.Dialog>
+                        </AlertDialog.Container>
+                      </AlertDialog.Backdrop>
+                    </AlertDialog>
                   </Table.Cell>
                 </Table.Row>
               ))}

@@ -1,13 +1,15 @@
 import React from 'react';
 import { getUsers } from '../lib/data';
 import UsersTable from '@/components/UsersTable';
+import { deleteUser } from '../lib/action';
 
 
 const UsersPage = async() => {
+
     const users = await getUsers()
     return (
         <div className='py-10'>
-           <UsersTable users={users}></UsersTable>
+           <UsersTable users={users} deleteUserAction = {deleteUser}></UsersTable>
         </div>
     );
 };
